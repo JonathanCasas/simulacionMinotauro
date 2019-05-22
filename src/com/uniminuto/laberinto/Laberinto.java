@@ -44,6 +44,7 @@ public class Laberinto extends JFrame {
             }
         }
         paintPanels();//Se establecen las propiedades de los paneles que hacen parte del laberinto
+        placeMinotaur();
         for (int i = 0; i < globalI; i++) {//For para agregar los paneles a la grilla
             for (int j = 0; j < globalJ; j++) {
                 this.add(panels[i][j]);
@@ -64,6 +65,12 @@ public class Laberinto extends JFrame {
     private void createLabyrinth(int i, int j) {
         panels[i][j].setBackground(new Color(68, 81, 58));
         panels[i][j].setBorder(new LineBorder(Color.WHITE));
+    }
+
+    private void placeMinotaur() {
+        PanelMintaur panel = new PanelMintaur();
+        panel.setSize(panels[8][8].getWidth(), panels[8][8].getHeight());
+        panels[8][8].add(panel);
     }
 
     private void setPositionsLabyrinth() {
@@ -278,6 +285,5 @@ public class Laberinto extends JFrame {
         positions.add(new Position(18, 18));
         positions.add(new Position(18, 19));
         positions.add(new Position(18, 20));
-
     }
 }
