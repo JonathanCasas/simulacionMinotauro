@@ -6,6 +6,8 @@
 package com.uniminuto;
 
 import com.uniminuto.laberinto.Laberinto;
+import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -15,8 +17,9 @@ public class simulacion {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws HeadlessException, FileNotFoundException {
         Laberinto.main(args);
     }
     
