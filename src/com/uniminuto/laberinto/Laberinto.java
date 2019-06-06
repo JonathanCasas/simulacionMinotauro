@@ -8,6 +8,7 @@ package com.uniminuto.laberinto;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,8 +24,11 @@ public class Laberinto extends JFrame {
     int globalJ = 21;
     private final JPanel[][] panels = new JPanel[globalI][globalJ];
     private ArrayList<Position> positions = new ArrayList<>();
+    Datos datos = new Datos();
+    ArrayList<Coordenada> coordenadas = new ArrayList<>();
 
-    public Laberinto() throws HeadlessException {
+    public Laberinto() throws HeadlessException, FileNotFoundException {
+        coordenadas = datos.leerAleartorios();
         setPositionsLabyrinth();
         initComponents();//Se establece las propieades de la pantalla (Componentes)
         initPaneles();//Se establecen las propieadades de los paneles (Grilla del laberinto)
@@ -45,6 +49,8 @@ public class Laberinto extends JFrame {
         }
         paintPanels();//Se establecen las propiedades de los paneles que hacen parte del laberinto
         placeMinotaur();
+        paintPerson();
+        paintTeseo();
         for (int i = 0; i < globalI; i++) {//For para agregar los paneles a la grilla
             for (int j = 0; j < globalJ; j++) {
                 this.add(panels[i][j]);
@@ -52,7 +58,7 @@ public class Laberinto extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws HeadlessException, FileNotFoundException {
         new Laberinto().setVisible(true);
     }
 
@@ -71,6 +77,37 @@ public class Laberinto extends JFrame {
         PanelMintaur panel = new PanelMintaur();
         panel.setSize(panels[8][8].getWidth(), panels[8][8].getHeight());
         panels[8][8].add(panel);
+    }
+
+    private void paintPerson() {
+        int counter = 0;
+        for (Coordenada coordenada : coordenadas) {
+            if (!isLabyrinth(coordenada)) {
+                counter++;
+                panels[coordenada.x][coordenada.y].setBackground(new Color(255, 113, 51));
+                panels[coordenada.x][coordenada.y].setBorder(new LineBorder(Color.WHITE));
+            }
+            if (counter == 3) {
+                break;
+            }
+        }
+    }
+
+    private void paintTeseo() {
+        panels[1][0].setBackground(Color.CYAN);
+        panels[1][0].setBorder(new LineBorder(Color.WHITE));
+    }
+
+    private boolean isLabyrinth(Coordenada coordenada) {
+        for (Position position : positions) {
+            if (coordenada.x == position.i
+                    && coordenada.x < 21
+                    && coordenada.y == position.j
+                    && coordenada.y < 19) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void setPositionsLabyrinth() {
